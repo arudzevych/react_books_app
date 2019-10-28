@@ -1,0 +1,18 @@
+@import '../../styles/variables.scss';
+
+a {
+    color: $primaryDark;
+    text-decoration: none;
+}
+li {
+    margin: 10px;
+    padding: 10px;
+    list-style: none;
+    border-radius: 10px;
+    &:hover {
+        background: $white;
+    }
+}
+p {
+    text-align: justify;
+}
