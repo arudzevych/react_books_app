@@ -48,9 +48,22 @@ const SearchStyles = theme => ({
       [theme.breakpoints.up('sm')]: {
         width: 120,
         '&:focus': {
-          width: 200,
+          width: 300,
         },
       },
+    },
+    wrapper: {
+      position: 'relative',
+    },
+    paper: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      border: '1px solid',
+      padding: theme.spacing(1),
+      backgroundColor: theme.palette.background.paper,
+      color: '#000',
     },
   });
 

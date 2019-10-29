@@ -1,26 +1,48 @@
 import React, { Fragment } from 'react';
 import SearchStyles from './SearchStyles';
 import { InputBase } from '@material-ui/core';
-import {  makeStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
+import { withStyles } from '@material-ui/core/styles';
+import SearchDropDown from './SearchDropDown';
 
-const useStyles = makeStyles(SearchStyles);
+class Search extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchQuery: '',
+        }
+    }
 
-function Search() {
-        const classes = useStyles();
+    updateSearchQuery = ({target: {value}}) => {
+        this.setState({searchQuery: value});
+    }
+
+    render() {
+        const { books, authors, classes } = this.props;
+        const { searchQuery } = this.state;
         return (
-            <Fragment>
-                <div className={classes.search}>
-                    <InputBase
+        <Fragment>
+            <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                    <SearchIcon />
+                </div>
+                <InputBase
                     placeholder="Search"
+                    inputProps={{ 'aria-label': 'search' }}
+                    onChange={this.updateSearchQuery}
                     classes={{
                         root: classes.inputRoot,
                         input: classes.inputInput,
                     }}
-                    inputProps={{ 'aria-label': 'search' }}
-                    />
-                </div>
-            </Fragment>
-        )
+                />
+                {searchQuery &&
+                    <SearchDropDown books={books} authors={authors} searchQuery={searchQuery} />
+                } 
+            </div>
+        </Fragment>
+    )
+    }
+    
 }
 
-export default Search;
+export default withStyles(SearchStyles)(Search);

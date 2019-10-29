@@ -15,15 +15,21 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
-            }, {
+            },
+            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'sass-loader', 'resolve-url-loader', 'autoprefixer-loader']
-            }, {
-                test: /\.(png|jpg|svg)$/,
+            },
+            {
+                test: /\.(png|jpg)$/,
                 use: 'file-loader',
                 options: {
                     name: '[path][name].[ext]'
                 }
+            },
+            {
+                test: /\.svg$/,
+                use: '@svgr/webpack',
             }
         ]
     },

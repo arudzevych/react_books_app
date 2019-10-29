@@ -1,0 +1,51 @@
+@import '../../../styles/variables.scss';
+
+.search-menu {
+    position: relative;
+    font-family: $secondary-font-family;
+    &_paper {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.2);
+        border-radius: 0 0 5px 5px;
+        padding: 10px;
+        background: $secondaryLight;
+        color: #000;
+        &_book-list {
+            padding:  0 5px 0 25px;
+            &_book-title {
+                position: relative;
+                left: -10px;
+                margin: 0;
+                &:first-child {
+                    margin-top: 15px;
+                }
+            }
+        }
+        &_author-list {
+            padding:  0 5px 0 25px;
+        &_author-name {
+            position: relative;
+                left: -10px;
+                margin: 0;
+                &:first-child {
+                    margin-top: 15px;
+                }
+            }
+        }
+        &_category-list {
+            padding:  0 5px 0 25px;
+            &_category-name {
+                position: relative;
+                left: -10px;
+                margin: 0;
+                &:first-child {
+                    margin-top: 15px;
+                }
+            }
+        }
+    }
+}
+

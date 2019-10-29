@@ -48,7 +48,7 @@ class TabsBar extends React.Component {
                             <Tab label="Books" />
                             <Tab label="Authors" />
                         </Tabs>
-                        <Search />
+                        <Search books={books} authors={authors} />
                     </Toolbar>
                 </AppBar>
                 {books.length 

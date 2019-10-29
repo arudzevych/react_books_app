@@ -15,7 +15,7 @@ class BookList extends React.Component {
                             <h5 className='book-list_book-item-title'>{book.title}</h5>
                         </Link>
                         {book.authors.map(authorId =>
-                            <Link to={`author/${authorId}`}>
+                            <Link to={`author/${authorId}`} key={authorId}>
                                     {Object.keys(authors).length &&
                                         <p className='book-list_book-item-author-name' key={authorId}>
                                             {authors[authorId].name}
