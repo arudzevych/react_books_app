@@ -1,46 +1,34 @@
 import React, { Fragment } from 'react';
 import './Book.scss';
-import axios from '../../axios.config';
+import { connect } from 'react-redux';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Fab from '@material-ui/core/Fab';
 import Home from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
+import { getBooksAction } from '../../store/actions/getBooksAction';
+import { getAuthorsAction } from '../../store/actions/getAuthorsAction';
 
 class Book extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            books: [],
-            authors: {}
+
+    componentDidMount() {
+        if (!Object.keys(this.props.books).length) {
+            this.props.dispatch(getBooksAction());
+            this.props.dispatch(getAuthorsAction());
         }
     }
 
-    componentDidMount() {
-        axios
-            .get('/books.json')
-            .then(res => {
-                const data = res.data;
-                console.log('res', res)
-                this.setState({books: data.books});
-                console.log('books', this.state.books);
-            })
-        axios
-            .get('/authors.json')
-            .then(res => {
-                const data = res.data;
-                this.setState({authors: data});
-                console.log('authors ', this.state.authors);
-        });
-
-    }
-
     render() {
-        const { books, authors } = this.state;
+        const { books, authors } = this.props;
         const bookId = this.props.match.params.bookId;
-        const currentBook = books.filter(book => book.isbn === bookId);
+        let currentBook;
+        if (Object.keys(books).length) {
+            currentBook = books.books.filter(book => book.isbn === bookId);
+            console.log(currentBook);
+        }
+        
         return (
             <Fragment>
-                {books.length
+                {currentBook
                     ? <div className='book-page'>
                         <div className='book-page_header'>
                             <Link to='/'>
@@ -52,10 +40,11 @@ class Book extends React.Component {
                             <ul className='book-page-info_book-authors'>AUTHORS
                                 {currentBook[0].authors.map(authorId =>
                                     <Link to={`/author/${authorId}`} key={authorId}>
-                                        {Object.keys(authors).length &&
-                                            <li key={authorId} className='book-page-info_book-authors_author-name'>
+                                        {Object.keys(authors).length
+                                            ? <li key={authorId} className='book-page-info_book-authors_author-name'>
                                                 {authors[authorId].name}
                                             </li>
+                                            : null
                                         }
                                     </Link>
                                 )}
@@ -75,10 +64,16 @@ class Book extends React.Component {
                     </div>
                     : <LinearProgress />
                 }
-                
             </Fragment>
         )
     }
 }
 
-export default Book;
+const mapStateToProps = state => (
+    {
+        books: state.books.books,
+        authors: state.authors.authors
+    }
+)
+
+export default connect(mapStateToProps)(Book);

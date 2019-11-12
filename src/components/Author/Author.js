@@ -1,34 +1,29 @@
 import React, { Fragment } from 'react';
 import './Author.scss';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import axios from '../../axios.config';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import Home from '@material-ui/icons/Home';
+import { getAuthorsAction } from '../../store/actions/getAuthorsAction';
 
 class Author extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            authors: {}
+
+    componentDidMount() {
+        if (!Object.keys(this.props.authors).length) {
+            this.props.dispatch(getAuthorsAction());
         }
     }
 
-    componentDidMount() {
-        axios.get('/authors.json')
-            .then(res => {
-                this.setState({authors: res.data});
-            })
-
-    }
-
     render() {
-        const { authors } = this.state;
+        const { authors } = this.props;
         const authorId = this.props.match.params.authorId;
         const author = authors[authorId];
+        console.log(author);
+        console.log(authorId);
         return (
             <Fragment>
-                {Object.keys(authors).length
+                {author
                     ? <div className='author-page'>
                         <div className='author-page_header'>
                             <Link to='/'>
@@ -57,4 +52,8 @@ class Author extends React.Component {
     }
 }
 
-export default Author;
+const mapStateToProps = state => ({
+    authors: state.authors.authors
+})
+
+export default connect(mapStateToProps)(Author);

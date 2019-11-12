@@ -8,7 +8,6 @@ import NotFound from '../NotFound';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
-
 class App extends React.Component {
 
   render() {

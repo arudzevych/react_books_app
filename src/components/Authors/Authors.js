@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import { getAuthorsAction } from '../../store/actions/getAuthorsAction';
+import { connect } from 'react-redux';
 
 class Authors extends React.Component {
     constructor(props) {
@@ -11,6 +13,10 @@ class Authors extends React.Component {
         this.state = {
             expanded: 'panel1'
         }
+    }
+
+    componentWillMount() {
+        this.props.dispatch(getAuthorsAction());
     }
 
     handleChange = panel => (event, newExpanded) => {
@@ -24,7 +30,9 @@ class Authors extends React.Component {
             <Fragment>
                 <ul className='author-list'>
                     {Object.values(authors).map(author =>
-                        <ExpansionPanel square expanded={expanded === author.id} 
+                        <ExpansionPanel
+                            square 
+                            expanded={expanded === author.id}
                             onChange={this.handleChange(author.id)}
                             key={author.id}
                             className='author-list_panel'
@@ -42,8 +50,8 @@ class Authors extends React.Component {
                                 </ExpansionPanelDetails>
                             </Link>
                             {author.books.map(book =>
-                                <Link to={`book/${book.id}`}>
-                                    <ExpansionPanelDetails key={book.id} className='author-list_panel_details'>
+                                <Link to={`book/${book.id}`} key={book.id}>
+                                    <ExpansionPanelDetails  className='author-list_panel_details'>
                                         <p className='author-list_panel_details-info'>{book.title}</p>
                                     </ExpansionPanelDetails>
                                 </Link>
@@ -56,4 +64,8 @@ class Authors extends React.Component {
     }
 }
 
-export default Authors;
+const mapStateToProps = (state) => ({
+    authors: state.authors.authors,
+})
+
+export default connect(mapStateToProps)(Authors);

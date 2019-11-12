@@ -5,33 +5,40 @@ import BookList from '../BookList';
 import TabPaper from './TabPaper';
 import Search from '../Search';
 import { AppBar, Toolbar, Tabs, Tab, } from '@material-ui/core';
-import axios from '../../axios.config';
-import LinearProgress from '@material-ui/core/LinearProgress';
+// import axios from '../../axios.config';
+// import LinearProgress from '@material-ui/core/LinearProgress';
+// import { connect } from 'react-redux';
+// import { getBooksAction } from '../../store/actions/getBooksAction';
 
 class TabsBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             value: 0,
-            books: [],
-            authors: {}            
+            // books: [],
+            // authors: {}            
         }
     }
 
-    componentDidMount() {
-        axios
-            .get('/books.json')
-            .then(res => {
-                const data = res.data;
-                this.setState({books: data.books});
-            })
-        axios
-            .get('/authors.json')
-            .then(res => {
-                this.setState({authors: res.data});
-        });
+    // componentDidMount() {
+    //     axios
+    //         .get('/books.json')
+    //         .then(res => {
+    //             const data = res.data;
+    //             this.setState({books: data.books});
+    //         })
+    //     axios
+    //         .get('/authors.json')
+    //         .then(res => {
+    //             this.setState({authors: res.data});
+    //     });
 
-    }
+    // }
+
+    // componentDidMount() {
+    //     const { dispatch } = this.props;
+    //     dispatch(getBooksAction())
+    // }
 
     handleChange = (event, newValue) => {
         this.setState({value: newValue});
@@ -39,7 +46,6 @@ class TabsBar extends React.Component {
 
     render() {
         const {value} = this.state;
-        const { books, authors } = this.state;
         return (
             <Fragment>
                 <AppBar position="static">
@@ -48,24 +54,25 @@ class TabsBar extends React.Component {
                             <Tab label="Books" />
                             <Tab label="Authors" />
                         </Tabs>
-                        <Search books={books} authors={authors} />
+                        <Search />
                     </Toolbar>
                 </AppBar>
-                {books.length 
-                    ? <TabPaper value={value} index={0}>
-                        <BookList books={books} authors={authors} />
-                    </TabPaper>  
-                    : <LinearProgress />
-                    }
-                {Object.keys(authors).length
-                    ? <TabPaper value={value} index={1}>
-                        <Authors books={books} authors={authors} />
-                    </TabPaper>
-                    : <LinearProgress />
-                }
+                <TabPaper value={value} index={0}>
+                    <BookList />
+                </TabPaper>
+                <TabPaper value={value} index={1}>
+                    <Authors />
+                </TabPaper>
             </Fragment>
         )
     }
 }
+
+// const mapStateToProps = (state) => ({
+//     books: state.books.books,
+//     authors: state.authors
+// })
+
+// export default connect(mapStateToProps)(TabsBar);
 
 export default TabsBar;
